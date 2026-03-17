@@ -22,7 +22,11 @@ def sudoku(grille):
     for ligne in range(9):
         for colonne in range(9):
             if grille[ligne][colonne] == 0:
-                for numéro in range(1,10):
+
+                nombres = list(range(1,10))
+                random.shuffle(nombres)
+
+                for numéro in nombres:
                     if valide_ou_pas(grille, ligne, colonne, numéro):
                         grille[ligne][colonne] = numéro
                         if sudoku(grille):
@@ -39,7 +43,6 @@ def efface(grille, n):
         if grille[ligne][colonne] != 0:
             grille[ligne][colonne] = 0
             n -= 1
-
     return grille
 
 grille = générer_grille()
