@@ -22,10 +22,8 @@ def sudoku(grille):
     for ligne in range(9):
         for colonne in range(9):
             if grille[ligne][colonne] == 0:
-
-                nombres = list(range(1,10))
+                nombres = list(range(1,10))#changement car sinon tojours même grille
                 random.shuffle(nombres)
-
                 for numéro in nombres:
                     if valide_ou_pas(grille, ligne, colonne, numéro):
                         grille[ligne][colonne] = numéro
