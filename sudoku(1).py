@@ -52,6 +52,56 @@ class SudokuUI(tk.Frame):
                     e.config(state="normal")
 
 
+class App(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        self.title("Sudoku")
+
+        self.frame_actuelle = None
+        self.afficher_menu()
+
+    def changer_frame(self, frame):
+        if self.frame_actuelle:
+            self.frame_actuelle.destroy()
+        self.frame_actuelle = frame
+        self.frame_actuelle.pack()
+
+    def afficher_menu(self):
+        frame = tk.Frame(self)
+
+        tk.Label(frame, text="Choisis la difficulté", font=("Arial", 16)).pack(pady=10)
+
+        tk.Button(frame, text="Facile",
+                  command=lambda: self.lancer_jeu("Facile")).pack(pady=5)
+
+        tk.Button(frame, text="Moyen",
+                  command=lambda: self.lancer_jeu("Moyen")).pack(pady=5)
+
+        tk.Button(frame, text="Difficile",
+                  command=lambda: self.lancer_jeu("Difficile")).pack(pady=5)
+
+        self.changer_frame(frame)
+
+    def lancer_jeu(self, difficulte):
+        frame = tk.Frame(self)
+
+        # Génération Sudoku
+        grille = générer_grille()
+        sudoku(grille)
+
+        nb = get_nb_cases(difficulte)
+        efface(grille, nb)
+
+        ui = SudokuUI(frame, grille)
+        ui.pack()
+
+        tk.Button(frame, text="Retour au menu",
+                  command=self.afficher_menu).pack(pady=10)
+
+        self.changer_frame(frame)
+
+
+
 root = tk.Tk()
 
 root.title("Sudoku")
