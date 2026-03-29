@@ -1,10 +1,9 @@
-import random
-import tkinter as tk
 
 class SudokuUI(tk.Frame):
-    def __init__(self, parent, grille):
+    def __init__(self, parent, grille, solution):
         super().__init__(parent)
         self.grille = grille
+        self.solution = solution 
         self.entries = [[None]*9 for _ in range(9)]
 
         self.create_grid()
@@ -36,6 +35,15 @@ class SudokuUI(tk.Frame):
                         entry.grid(row=i, column=j, padx=1, pady=1)
 
                         self.entries[ligne][colonne] = entry
+                        entry.bind("<KeyRelease>", lambda event, l=ligne, c=colonne: self.verifier_case(l, c))
+    def verifier_case(self, ligne , colonne):
+        val = self.entries[ligne][colonne].get()
+        if val.isdigit():
+            val = int(val)
+            if val == self.solution[ligne][colonne]:
+                self.entries[ligne][colonne].config(fg = "black")
+            else : 
+                self.entries[ligne][colonne].config(fg="red")
 
     def remplir(self):
         for i in range(9):
@@ -67,32 +75,43 @@ class App(tk.Tk):
         self.frame_actuelle.pack()
 
     def afficher_menu(self):
-        frame = tk.Frame(self)
+        frame = tk.Frame(self, bg = "lightyellow")
+        frame.pack(fill="both", expand=True)
 
-        tk.Label(frame, text="Choisis la difficulté", font=("Arial", 16)).pack(pady=10)
+        tk.Label(frame, text="Choisis la difficulté", font=("Arial", 50) ,fg= "lightblue", bg = "lightyellow" ).grid(row = 0 , column=0, sticky="w", padx=20, pady=20)
 
-        tk.Button(frame, text="Facile",
-                  command=lambda: self.lancer_jeu("Facile")).pack(pady=5)
+        tk.Button(frame, text="Facile", bg = "white" , fg="lightblue",font =("Arial", 30),
+                  command=lambda: self.lancer_jeu("Facile")).grid(row=1, column=0, pady=10, sticky="n")
 
-        tk.Button(frame, text="Moyen",
-                  command=lambda: self.lancer_jeu("Moyen")).pack(pady=5)
+        tk.Button(frame, text="Moyen",bg = "white" , fg="lightblue", font =("Arial", 30),
+                  command=lambda: self.lancer_jeu("Moyen")).grid(row=2, column=0, pady=10, sticky="n")
 
-        tk.Button(frame, text="Difficile",
-                  command=lambda: self.lancer_jeu("Difficile")).pack(pady=5)
+        tk.Button(frame, text="Difficile",bg = "white" , fg="lightblue",font =("Arial", 30),
+                  command=lambda: self.lancer_jeu("Difficile")).grid(row=3, column=0, pady=10, sticky="n")
 
         self.changer_frame(frame)
 
+    def get_nb_cases(self, difficulte):
+        if difficulte == "Facile":
+            return 30
+        elif difficulte == "Moyen":
+            return 40
+        else:
+            return 50
+
     def lancer_jeu(self, difficulte):
-        frame = tk.Frame(self)
+        frame = tk.Frame(self, bg = "lightyellow",)
+        frame.pack(fill="both", expand=True)
 
         # Génération Sudoku
         grille = générer_grille()
         sudoku(grille)
+        solution = [ligne[:] for ligne in grille]
 
-        nb = get_nb_cases(difficulte)
+        nb = self.get_nb_cases(difficulte)
         efface(grille, nb)
 
-        ui = SudokuUI(frame, grille)
+        ui = SudokuUI(frame, grille, solution)
         ui.pack()
 
         tk.Button(frame, text="Retour au menu",
@@ -101,12 +120,5 @@ class App(tk.Tk):
         self.changer_frame(frame)
 
 
-
-root = tk.Tk()
-
-root.title("Sudoku")
-
-ui = SudokuUI(root, grille)
-ui.pack(padx=10, pady=10)
-
-root.mainloop()
+app = App()
+app.mainloop()
