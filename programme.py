@@ -1,20 +1,20 @@
 
 import random
 
-def générer_grille():
+def generer_grille():
   grille = [[0]*9 for _ in range(9)]
   return grille
 
-def valide_ou_pas(grille, ligne, colonne, numéro):
-    if numéro in grille[ligne]:
+def valide_ou_pas(grille, ligne, colonne, numero):
+    if numero in grille[ligne]:
         return False
-    if numéro in [grille[l][colonne] for l in range(9)]: #https://professeurb.github.io/articles/sudoku/ utilisation du code, pour la division par cases et le fait d'avoir bien des colonnes
+    if numero in [grille[l][colonne] for l in range(9)]: #https://professeurb.github.io/articles/sudoku/ utilisation du code, pour la division par cases et le fait d'avoir bien des colonnes
         return False
     case_ligne = 3 * (ligne // 3) # donne la première sous case de chaque case de 3x3
     case_colonne = 3 * (colonne // 3)
     for l in range(case_ligne, case_ligne + 3):
         for c in range(case_colonne, case_colonne + 3):
-            if grille[l][c] == numéro:
+            if grille[l][c] == numero:
                 return False
     return True
 
@@ -24,9 +24,9 @@ def sudoku(grille):
             if grille[ligne][colonne] == 0:
                 nombres = list(range(1,10))#changement car sinon tojours même grille
                 random.shuffle(nombres)
-                for numéro in nombres:
-                    if valide_ou_pas(grille, ligne, colonne, numéro):
-                        grille[ligne][colonne] = numéro
+                for numero in nombres:
+                    if valide_ou_pas(grille, ligne, colonne, numero):
+                        grille[ligne][colonne] = numero
                         if sudoku(grille):
                             return True
                         grille[ligne][colonne] = 0
@@ -43,7 +43,7 @@ def efface(grille, n):
             n -= 1
     return grille
 
-grille = générer_grille()
+grille = generer_grille()
 
 sudoku(grille)
 
