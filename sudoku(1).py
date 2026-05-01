@@ -231,7 +231,7 @@ class App(tk.Tk):
     def lancer_jeu(self, difficulte):
         frame = tk.Frame(self, bg="lightyellow")
 
-        grille = générer_grille()
+        grille = generer_grille()
         sudoku(grille)
 
         nb = self.get_nb_cases(difficulte)
