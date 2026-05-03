@@ -10,11 +10,23 @@ Elena Crisafulli, Amina Boualla, Lyna Mabrouk
 - `interface.py`: les éléments graphiques du jeu en lui même et les fonctions associées
 - `logique.py`: création d'une grille valide
 
-# Comment jouer ? 
-1. choisir son niveau de difficulté :
+# Comment jouer ?
+## Ecran d'accueil
+Choisir son niveau de difficulté :
    - Facile : 30 cases à remplir
    - Moyen : 40 cases à remplir
    - Difficile : 50 cases à remplir
+
+## Interface principale
+![](instructions/instructions-2.png){width=1200}
+
+![](instructions/instructions-3.png){width=1200}
+
+![](instructions/instructions-4.png){width=1200}
+
+![](instructions/instructions-5.png){width=1200}
+
+
 
   
   
