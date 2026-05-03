@@ -23,6 +23,15 @@ def create_barre_nombres(self):
         btn.grid(row=0, column=i - 1, padx=5)
         self.boutons_nombres[i] = btn
 
+    btn_clear = tk.Button(
+        frame,
+        text="✖",
+        font=("Arial", 16),
+        width=3,
+     command=lambda: self.selectionner_nombre(None)
+    )
+    btn_clear.grid(row=0, column=9, padx=5)
+
 
 def selectionner_nombre(self, nombre):
     self.nombre_selectionne = nombre
@@ -246,7 +255,7 @@ class SudokuUI(tk.Frame):
         secondes = self.secondes % 60
 
         indices_utilises = 9 - self.indices_restants
-        
+
         for i in range(9):
             for j in range(9):
                 self.set_bg(i, j, "#90ee90")
