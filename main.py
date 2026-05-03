@@ -20,6 +20,7 @@ class App(tk.Tk):
 
     def afficher_menu(self):
         frame = tk.Frame(self, bg="lightyellow")
+        frame.pack(fill = "both" , expand = True )
 
         tk.Label(
             frame,
@@ -58,8 +59,10 @@ class App(tk.Tk):
     def lancer_jeu(self, difficulte):
         frame = tk.Frame(self, bg="lightyellow")
 
-        grille = generer_grille()
-        sudoku(grille)
+        solution  = generer_grille()
+        sudoku(solution)
+
+        grille = [row[:] for row in solution]
 
         nb = self.get_nb_cases(difficulte)
         efface(grille, nb)
@@ -67,11 +70,18 @@ class App(tk.Tk):
         ui = SudokuUI(frame, grille)
         ui.pack()
 
+
         tk.Button(
             frame,
             text="Annuler",
             command=ui.annuler
         ).pack(side="left", padx=10, pady=10)
+
+        tk.Button(
+            frame, 
+            text = "Indice",
+            command=ui.indice
+        ).pack(side ="left" , padx = 10 , pady = 10)
 
         tk.Button(
             frame,
