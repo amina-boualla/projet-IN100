@@ -17,6 +17,7 @@ Choisir son niveau de difficulté :
    - Moyen : 40 cases à remplir
    - Difficile : 50 cases à remplir
 
+
 ## Interface principale
 ![](instructions/instructions-2.png)
 
@@ -25,6 +26,11 @@ Choisir son niveau de difficulté :
 ![](instructions/instructions-4.png)
 
 ![](instructions/instructions-5.png)
+
+# Aide au joueur 
+
+Indice : permet de remplir automatiquement une case correcte de la grille (nombre limité d’indices)
+Croix (désélection de case) : si une case est déjà sélectionnée ou remplie, il faut d’abord la désélectionner en cliquant sur une autre case vide ou sur la croix (retour arrière) avant de pouvoir utiliser un indice sur une nouvelle case
 
 
 
