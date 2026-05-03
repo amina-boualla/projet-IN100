@@ -81,9 +81,10 @@ def update_barre_nombres(self):
 # ── Classe principale ───────────────────────────────────────────────────────────
 
 class SudokuUI(tk.Frame):
-    def __init__(self, parent, grille):
+    def __init__(self, parent, grille , solution):
         super().__init__(parent)
         self.grille = grille
+        self.solution = solution 
         self.entries = [[None]*9 for _ in range(9)]
         self.base_colors = [[None]*9 for _ in range(9)]
         self.secondes = 0
@@ -91,6 +92,10 @@ class SudokuUI(tk.Frame):
         self.chrono_actif = True
         self.derniere_valeur = [[None]*9 for _ in range(9)]
         self.historique = []
+        self.indices_restants = 9
+        self.label_indices = None
+        self.indices_utilises = set()
+        self.case_selectionnee = None
 
         self.erreurs = 0
         self.label_erreurs = None
@@ -133,6 +138,15 @@ class SudokuUI(tk.Frame):
         self.label_erreurs.pack(side="left", padx=20)
 
         self.update_chrono()
+
+        self.label_indices = tk.Label(
+            bandeau,
+            text="Indices : 9/9",
+            font=("Arial", 14),
+            bg="lightyellow",
+            fg="blue"
+        )
+        self.label_indices.pack(side="left", padx=20)
 
     def update_chrono(self):
         if self.chrono_actif:
@@ -231,6 +245,8 @@ class SudokuUI(tk.Frame):
         minutes = self.secondes // 60
         secondes = self.secondes % 60
 
+        indices_utilises = 9 - self.indices_restants
+        
         for i in range(9):
             for j in range(9):
                 self.set_bg(i, j, "#90ee90")
@@ -270,12 +286,22 @@ class SudokuUI(tk.Frame):
             fg="red"
         ).pack(padx=30)
 
+        tk.Label(
+            popup,
+            text = f"Indices utilisés : {indices_utilises}/9",
+            font=("Arial", 14),
+            bg="lightyellow",
+            fg = "green"
+        ).pack(pady=5)
+
         tk.Button(
             popup,
             text="OK",
             font=("Arial", 14),
             command=popup.destroy
         ).pack(pady=20)
+
+
 
     def set_bg(self, i, j, color):
         e = self.entries[i][j]
@@ -293,6 +319,7 @@ class SudokuUI(tk.Frame):
     def highlight_selected(self, ligne, colonne):
         self.reset_colors()
         self.set_bg(ligne, colonne, "#cce6ff")
+        self.case_selectionnee = (ligne , colonne)
 
     def highlight_erreurs(self, ligne, colonne, val):
         self.reset_colors()
@@ -399,6 +426,32 @@ class SudokuUI(tk.Frame):
 
         self.update_barre_nombres()
 
+    def indice(self):
+        if self.indices_restants == 0:
+            self.label_indices.config(text="Indices : 0/9 ")
+            return
+
+        if not hasattr(self, "case_selectionnee"):
+            return
+
+        i, j = self.case_selectionnee
+
+    # si déjà remplie
+        if self.grille[i][j] != 0:
+            return
+
+        valeur = self.solution[i][j]
+
+        self.entries[i][j].delete(0, tk.END)
+        self.entries[i][j].insert(0, str(valeur))
+
+        self.grille[i][j] = valeur
+
+        self.indices_restants -= 1
+
+        self.label_indices.config(
+            text=f"Indices : {self.indices_restants}/9"
+        )
 
 # Greffage des méthodes externes sur la classe
 SudokuUI.selectionner_nombre = selectionner_nombre
