@@ -18,13 +18,13 @@ Choisir son niveau de difficulté :
    - Difficile : 50 cases à remplir
 
 ## Interface principale
-![](instructions/instructions-2.png){width=1200}
+![](instructions/instructions-2.png)
 
-![](instructions/instructions-3.png){width=1200}
+![](instructions/instructions-3.png)
 
-![](instructions/instructions-4.png){width=1200}
+![](instructions/instructions-4.png)
 
-![](instructions/instructions-5.png){width=1200}
+![](instructions/instructions-5.png)
 
 
 
