@@ -67,7 +67,7 @@ class App(tk.Tk):
         nb = self.get_nb_cases(difficulte)
         efface(grille, nb)
 
-        ui = SudokuUI(frame, grille)
+        ui = SudokuUI(frame, grille, solution)
         ui.pack()
 
 
