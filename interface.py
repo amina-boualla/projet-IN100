@@ -440,7 +440,7 @@ class SudokuUI(tk.Frame):
             self.label_indices.config(text="Indices : 0/9 ")
             return
 
-        if not hasattr(self, "case_selectionnee"):
+        if self.case_selectionnee is None:
             return
 
         i, j = self.case_selectionnee
